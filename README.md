@@ -6,7 +6,7 @@
 ## Inside of Program
 1.  It read the list of nuclear power plants with geolocation information from the resources (NuclearPlantsMap.java).
 2.  The csv data is read as objects (PowerPlantLoader.java).
-3.  After that, the data is set to the appropriate position according to the geolocation. A nuclear power plant is visualized as a cone. The cone size indicates size of nuclear power plant. (CytobandView.java).
+3.  After that, the data is set to the appropriate position according to the geolocation. A nuclear power plant is visualized as a cone. The cone size indicates size of nuclear power plant. (NuclearPlantsMap.java).
 4.  To manipulate the earth, it uses mouse drag (TrackBall.java).
 5.  It also uses selection buffers to enable to picking  cone (NuclearPlantsMap.java).
 
