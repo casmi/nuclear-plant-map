@@ -2,13 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>test</groupId>
-	<artifactId>test</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>test</name>
-	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,16 +20,19 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>casmi</groupId>
+			<groupId>com.github.casmi</groupId>
 			<artifactId>casmi</artifactId>
-			<version>0.0.4-SNAPSHOT</version>
+			<version>0.4.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
+			<groupId>com.github.casmi</groupId>
+			<artifactId>casmi-io</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	<groupId>jp.xcoo.casmi</groupId>
+	<artifactId>nuclearplantsmap</artifactId>
+	<name>nuclear plants map</name>
+	<url>http://casmi.github.com/gallery/nuclearplantsmap.html</url>
 </project>

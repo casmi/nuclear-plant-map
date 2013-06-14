@@ -16,33 +16,32 @@
  * limitations under the License.
  */
 
-package plantsmap.view;
+package jp.xcoo.casmi.plantsmap.data;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import plantsmap.data.Plant;
-import casmi.parser.CSV;
+import casmi.io.parser.CSV;
 
 /**
  * Load power plant data from csv file
- * 
- * @author Y. Ban
  *
+ * @author Y. Ban
+ * @author Takashi AOKI <federkasten@me.com>
  */
 public class PowerPlantLoader {
-	
+
 	public static List<Plant> load(URL csvfile){
 
 		List<Plant> result = new ArrayList<Plant>();
-        
+
         try {
         	CSV csv = new CSV(csvfile);
-        	
+
         	String[] row = null;
-        	
+
             while ((row = csv.readLine()) != null) {
             	String name = row[0];
             	String[] capacityAry = row[1].split(",");
@@ -50,21 +49,21 @@ public class PowerPlantLoader {
             	String country = row[2];
             	double latitude = Double.valueOf(row[3]).doubleValue();
             	double longitude = Double.valueOf(row[4]).doubleValue();
-            	
+
             	Plant plant = new Plant(name, capacity, country, latitude, longitude);
-            	
+
             	if(!result.contains(plant)){
             		result.add(plant);
             	}
             }
-            
+
             csv.close();
-            
+
         } catch (IOException e) {
         	e.printStackTrace();
         }
 
         return result;
 	}
-	
+
 }

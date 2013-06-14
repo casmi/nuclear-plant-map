@@ -16,44 +16,50 @@
  * limitations under the License.
  */
 
-package plantsmap.data;
+package jp.xcoo.casmi.plantsmap.data;
 
 import casmi.graphics.color.Color;
 import casmi.graphics.color.ColorSet;
+import casmi.graphics.color.RGBColor;
 import casmi.graphics.element.Cone;
 
 /**
  * Power plant object
- * 
- * @author Y. Ban
  *
+ * @author Y. Ban
+ * @author Takashi AOKI <federkasten@me.com>
  */
-public class Plant {
-	
+public class Plant extends Cone{
+
     private String name;
     private String country;
     private double capacity;
     private double longitude;
     private double latitude;
-    
-    private Cone cone;
 
     public static final double MAX_POWER = 6000.0;
     public static final double MIN_POWER = 1000.0;
-    
-    public static final Color MAX_COLOR = new Color(240,0,0);
-    public static final Color MIN_COLOR = new Color(180,180,0);
-    
+
+    public static final Color MAX_COLOR = new RGBColor(240/255.0,0,0);
+    public static final Color MIN_COLOR = new RGBColor(180/255.0,180/255.0,0);
+
+    private boolean selected;
+    private Color color;
+
     public Plant(String name, double capacity, String country, double longitude, double latitude) {
+        super(0.015, capacity/15000.0);
+
         this.setName(name);
         this.setCountry(country);
         this.setCapacity(capacity);
         this.setLongitude(longitude);
         this.setLatitude(latitude);
-        this.cone = new Cone(0.015, this.getCapacity()/15000.0);
-        this.cone.setStroke(false);
-        this.cone.setStrokeColor(Color.color(ColorSet.WHITE));
-        this.cone.setFillColor(Color.lerpColor(MIN_COLOR, MAX_COLOR, (float)((this.getCapacity()-MIN_POWER)/(MAX_POWER-MIN_POWER))));
+
+        this.color = RGBColor.lerpColor(MIN_COLOR, MAX_COLOR, (float)((this.getCapacity()-MIN_POWER)/(MAX_POWER-MIN_POWER)));
+
+        this.setStroke(false);
+        this.setStrokeColor(ColorSet.WHITE);
+        this.setFillColor(this.color);
     }
 
 	public String getName() {
@@ -96,11 +102,17 @@ public class Plant {
 		this.latitude = latitude;
 	}
 
-	public Cone getCone() {
-		return cone;
-	}
+    public boolean isSelected() {
+        return selected;
+    }
 
-	public void setCone(Cone cone) {
-		this.cone = cone;
-	}
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+
+        if (this.selected) {
+            this.setFillColor(ColorSet.WHITE);
+        } else {
+            this.setFillColor(this.color);
+        }
+    }
 }
