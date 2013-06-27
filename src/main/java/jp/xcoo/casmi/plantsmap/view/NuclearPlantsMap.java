@@ -28,6 +28,7 @@ import casmi.KeyEvent;
 import casmi.MouseButton;
 import casmi.MouseEvent;
 import casmi.Trackball;
+import casmi.graphics.color.ColorSet;
 import casmi.graphics.color.RGBColor;
 import casmi.graphics.element.Element;
 import casmi.graphics.element.MouseClickCallback;
@@ -35,6 +36,7 @@ import casmi.graphics.element.Rect;
 import casmi.graphics.element.Sphere;
 import casmi.graphics.element.Text;
 import casmi.graphics.element.Texture;
+import casmi.graphics.font.Font;
 import casmi.graphics.group.Group;
 import casmi.matrix.Matrix3D;
 import casmi.matrix.Vertex;
@@ -54,7 +56,7 @@ public class NuclearPlantsMap extends Applet {
 
     private Rect boardBackground = null;
 
-    private Text labelCapacity, labelPowerMax, labelPowerMin, labelName, labelTitle;
+    private Text labelCapacity, labelCountry, labelLocation, labelName, labelTitle;
 
     private Trackball trackBall = null;
 
@@ -68,20 +70,19 @@ public class NuclearPlantsMap extends Applet {
 
     @Override
 	public void setup(){
-
     	setSize(1024, 768);
 
     	map = new Group();
 
 		earth = new Sphere(1);
 		earth.setStroke(false);
-        earthTexture = new Texture( getClass().getResource("/plantsmap/earthDiffuse.png") );
+        earthTexture = new Texture(getClass().getResource("/plantsmap/earthDiffuse.png"));
         earth.setTexture(earthTexture);
         earth.setRotationZ(180.0);
 
         map.add(earth);
 
-        plants = PowerPlantLoader.load( getClass().getResource("/plantsmap/nuclear.csv") );
+        plants = PowerPlantLoader.load(getClass().getResource("/plantsmap/nuclear.csv"));
 
         for (Plant p : plants) {
             double lat = p.getLongitude();
@@ -98,13 +99,17 @@ public class NuclearPlantsMap extends Applet {
 
             p.setPosition(v);
 
-            p.addMouseEventCallback( new MouseClickCallback() {
+            p.addMouseEventCallback(new MouseClickCallback() {
                 public void run(MouseClickTypes eventtype, Element element) {
                     Plant e = (Plant) element;
 
                     switch(eventtype) {
                     case CLICKED:
                         e.setSelected(true);
+                        labelName.setText("Name: " + e.getName());
+                        labelCapacity.setText("CapacityLevel: " + e.getCapacity());
+                        labelCountry.setText("Country: " + e.getCountry());
+                        labelLocation.setText("Location: " + e.getLongitude() + "," + e.getLatitude());
                         break;
                     case RELEASED:
                         e.setSelected(false);
@@ -122,53 +127,56 @@ public class NuclearPlantsMap extends Applet {
 
         // board
         Group board = new Group();
+        board.setUseProjection(false);
+        board.setPosition(800, 80);
 
-        boardBackground = new Rect(300, 150);
+        boardBackground = new Rect(400, 130);
+        boardBackground.setUseProjection(false);
         boardBackground.setStroke(false);
         boardBackground.setFillColor(new RGBColor(1.0, 1.0, 1.0, 0.3));
 
         board.add(boardBackground);
 
-//        for(int i = 0; i<NUM_CAPACITY_SEGMENT; i++){
-//        	capacityRect[i] = new Rect((board.getWidth()-30)/NUM_CAPACITY_SEGMENT, 10);
-//        	capacityRect[i].setStrokeWidth(5);
-//        	capacityRect[i].setFillColor(RGBColor.lerpColor(Plant.MIN_COLOR, Plant.MAX_COLOR, i/(float)(NUM_CAPACITY_SEGMENT-1)));
-//        	capacityRect[i].setStroke(false);
-//        }
+        Font font = new Font("San-Serif");
+        font.setSize(12);
 
-//        Font font = new Font("San-Serif");
-//        font.setSize(12);
-//
-//        Font fontS = new Font("San-Serif");
-//        fontS.setSize(10);
-//
-//        labelName = new Text("Name:",font);
-//        labelName.setStrokeColor(ColorSet.WHEAT);
-//        labelName.setStrokeColor(ColorSet.WHITE_SMOKE);
-//        board.add(labelName);
-//
-//        labelCapacity = new Text("CapacityLevel", fontS);
-//        labelCapacity.setStrokeColor(ColorSet.WHITE);
-//        board.add(labelCapacity);
-//
-//        labelPowerMin = new Text(Double.toString(Plant.MIN_POWER), fontS);
-//        labelPowerMin.setStrokeColor(ColorSet.WHITE);
-//        labelPowerMin.setAlign(TextAlign.LEFT);
-//        board.add(labelPowerMin);
-//
-//        labelPowerMax = new Text(Double.toString(Plant.MAX_POWER), fontS);
-//        labelPowerMax.setStrokeColor(ColorSet.WHITE);
-//        labelPowerMax.setAlign(TextAlign.RIGHT);
-//        board.add(labelPowerMax);
-//
-//        Font fontTitle = new Font("San-Serif");
-//        fontTitle.setSize(18);
-//
-//        labelTitle = new Text(TITLE, fontTitle);
-//        labelTitle.setStrokeColor(ColorSet.ORANGE);
-//        board.add(labelTitle);
+        Font fontS = new Font("San-Serif");
+        fontS.setSize(10);
 
-//        addObject(board);  // TODO: fix
+        labelName = new Text("Name:",font);
+        labelName.setStrokeColor(ColorSet.WHITE);
+        labelName.setUseProjection(false);
+        labelName.setPosition(-180, 10);
+        board.add(labelName);
+
+        labelCapacity = new Text("CapacityLevel:", fontS);
+        labelCapacity.setStrokeColor(ColorSet.WHITE);
+        labelCapacity.setUseProjection(false);
+        labelCapacity.setPosition(-180, -10);
+        board.add(labelCapacity);
+
+        labelCountry = new Text("Country:", fontS);
+        labelCountry.setStrokeColor(ColorSet.WHITE);
+        labelCountry.setUseProjection(false);
+        labelCountry.setPosition(-180, -30);
+        board.add(labelCountry);
+
+        labelLocation = new Text("Location:", fontS);
+        labelLocation.setStrokeColor(ColorSet.WHITE);
+        labelLocation.setUseProjection(false);
+        labelLocation.setPosition(-180, -50);
+        board.add(labelLocation);
+
+        Font fontTitle = new Font("San-Serif");
+        fontTitle.setSize(18);
+
+        labelTitle = new Text(TITLE, fontTitle);
+        labelTitle.setStrokeColor(ColorSet.ORANGE);
+        labelTitle.setUseProjection(false);
+        labelTitle.setPosition(-180, 40);
+        board.add(labelTitle);
+
+        addObject(board);
 
         trackBall = new Trackball(getWidth(), getHeight());
 
