@@ -105,14 +105,16 @@ public class NuclearPlantsMap extends Applet {
 
                     switch(eventtype) {
                     case CLICKED:
+                        for (Plant p : plants) {
+                            p.setSelected(false);
+                        }
+
                         e.setSelected(true);
+
                         labelName.setText("Name: " + e.getName());
                         labelCapacity.setText("CapacityLevel: " + e.getCapacity());
                         labelCountry.setText("Country: " + e.getCountry());
                         labelLocation.setText("Location: " + e.getLongitude() + "," + e.getLatitude());
-                        break;
-                    case RELEASED:
-                        e.setSelected(false);
                         break;
                     default:
                         break;
