@@ -133,7 +133,6 @@ public class NuclearPlantsMap extends Applet {
         board.setPosition(800, 80);
 
         boardBackground = new Rect(400, 130);
-        boardBackground.setUseProjection(false);
         boardBackground.setStroke(false);
         boardBackground.setFillColor(new RGBColor(1.0, 1.0, 1.0, 0.3));
 
@@ -147,25 +146,21 @@ public class NuclearPlantsMap extends Applet {
 
         labelName = new Text("Name:",font);
         labelName.setStrokeColor(ColorSet.WHITE);
-        labelName.setUseProjection(false);
         labelName.setPosition(-180, 10);
         board.add(labelName);
 
         labelCapacity = new Text("CapacityLevel:", fontS);
         labelCapacity.setStrokeColor(ColorSet.WHITE);
-        labelCapacity.setUseProjection(false);
         labelCapacity.setPosition(-180, -10);
         board.add(labelCapacity);
 
         labelCountry = new Text("Country:", fontS);
         labelCountry.setStrokeColor(ColorSet.WHITE);
-        labelCountry.setUseProjection(false);
         labelCountry.setPosition(-180, -30);
         board.add(labelCountry);
 
         labelLocation = new Text("Location:", fontS);
         labelLocation.setStrokeColor(ColorSet.WHITE);
-        labelLocation.setUseProjection(false);
         labelLocation.setPosition(-180, -50);
         board.add(labelLocation);
 
@@ -174,7 +169,6 @@ public class NuclearPlantsMap extends Applet {
 
         labelTitle = new Text(TITLE, fontTitle);
         labelTitle.setStrokeColor(ColorSet.ORANGE);
-        labelTitle.setUseProjection(false);
         labelTitle.setPosition(-180, 40);
         board.add(labelTitle);
 
