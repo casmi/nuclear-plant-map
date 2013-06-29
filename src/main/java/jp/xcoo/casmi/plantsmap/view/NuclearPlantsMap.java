@@ -39,7 +39,9 @@ import casmi.graphics.element.Texture;
 import casmi.graphics.font.Font;
 import casmi.graphics.group.Group;
 import casmi.matrix.Matrix3D;
-import casmi.matrix.Vertex;
+import casmi.matrix.Vector3D;
+import casmi.tween.Tweener;
+import casmi.tween.equations.QuadraticInOut;
 
 /**
  * Nuclear Plants Map main applet
@@ -91,7 +93,7 @@ public class NuclearPlantsMap extends Applet {
             p.setRotationX(-lat);
             p.setRotationZ(-lng);
 
-            Vertex v = new Vertex(0, 1, 0);
+            Vector3D v = new Vector3D(0, 1, 0);
             Matrix3D matX = Matrix3D.getRotateXMatrix(-lat);
             Matrix3D matZ = Matrix3D.getRotateZMatrix(-lng);
 
@@ -110,6 +112,12 @@ public class NuclearPlantsMap extends Applet {
                         }
 
                         e.setSelected(true);
+
+                        clearTweeners();
+                        Tweener t = new Tweener(e);
+                        t.animateAlpha(0.4, 500, QuadraticInOut.class);
+                        t.setRepeat(true);
+                        addTweener(t);
 
                         labelName.setText("Name: " + e.getName());
                         labelCapacity.setText("CapacityLevel: " + e.getCapacity());
