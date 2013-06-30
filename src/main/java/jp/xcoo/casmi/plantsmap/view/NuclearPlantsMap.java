@@ -26,10 +26,11 @@ import casmi.Applet;
 import casmi.AppletRunner;
 import casmi.KeyEvent;
 import casmi.MouseButton;
-import casmi.MouseEvent;
+import casmi.MouseStatus;
 import casmi.Trackball;
 import casmi.callback.MouseClickCallback;
 import casmi.callback.MouseClickEventType;
+import casmi.graphics.canvas.Canvas;
 import casmi.graphics.color.ColorSet;
 import casmi.graphics.color.RGBColor;
 import casmi.graphics.element.Element;
@@ -38,7 +39,6 @@ import casmi.graphics.element.Sphere;
 import casmi.graphics.element.Text;
 import casmi.graphics.element.Texture;
 import casmi.graphics.font.Font;
-import casmi.graphics.group.Group;
 import casmi.matrix.Matrix3D;
 import casmi.matrix.Vector3D;
 import casmi.tween.Tweener;
@@ -69,13 +69,14 @@ public class NuclearPlantsMap extends Applet {
 
     private List<Plant> plants = null;
 
-    private Group map;
+    private Canvas map;
+    private Canvas board;
 
     @Override
 	public void setup(){
     	setSize(1024, 768);
 
-    	map = new Group();
+    	map = new Canvas();
 
 		earth = new Sphere(1);
 		earth.setStroke(false);
@@ -134,11 +135,11 @@ public class NuclearPlantsMap extends Applet {
             map.add(p);
         }
 
-        addObject(map);
+        addCanvas(map);
 
         // board
-        Group board = new Group();
-        board.setUseProjection(false);
+        board = new Canvas();
+//        board.setUseProjection(false); // TODO
         board.setPosition(800, 80);
 
         boardBackground = new Rect(400, 130);
@@ -181,7 +182,7 @@ public class NuclearPlantsMap extends Applet {
         labelTitle.setPosition(-180, 40);
         board.add(labelTitle);
 
-        addObject(board);
+        addCanvas(board);
 
         trackBall = new Trackball(getWidth(), getHeight());
 
@@ -199,8 +200,8 @@ public class NuclearPlantsMap extends Applet {
     }
 
     @Override
-    public void mouseEvent(MouseEvent e, MouseButton b) {
-        if (e == MouseEvent.DRAGGED) {
+    public void mouseEvent(MouseStatus e, MouseButton b) {
+        if (e == MouseStatus.DRAGGED) {
             trackBall.update(getMouseX(), getMouseY(), getPrevMouseX(), getPrevMouseY());
         }
     }
@@ -228,7 +229,7 @@ public class NuclearPlantsMap extends Applet {
             zoom = MAX_ZOOM;
         }
 
-        map.setScale(zoom);
+//        map.setScale(zoom);
     }
 
     public static void main(String args[]) {
