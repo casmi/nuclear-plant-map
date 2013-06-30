@@ -28,10 +28,11 @@ import casmi.KeyEvent;
 import casmi.MouseButton;
 import casmi.MouseEvent;
 import casmi.Trackball;
+import casmi.callback.MouseClickCallback;
+import casmi.callback.MouseClickEventType;
 import casmi.graphics.color.ColorSet;
 import casmi.graphics.color.RGBColor;
 import casmi.graphics.element.Element;
-import casmi.graphics.element.MouseClickCallback;
 import casmi.graphics.element.Rect;
 import casmi.graphics.element.Sphere;
 import casmi.graphics.element.Text;
@@ -102,10 +103,10 @@ public class NuclearPlantsMap extends Applet {
             p.setPosition(v);
 
             p.addMouseEventCallback(new MouseClickCallback() {
-                public void run(MouseClickTypes eventtype, Element element) {
+                public void run(MouseClickEventType eventType, Element element) {
                     Plant e = (Plant) element;
 
-                    switch(eventtype) {
+                    switch(eventType) {
                     case CLICKED:
                         for (Plant p : plants) {
                             p.setSelected(false);
