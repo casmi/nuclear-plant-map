@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>com.github.casmi</groupId>
 			<artifactId>casmi-io</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
+			<version>0.1.0</version>
 		</dependency>
 	</dependencies>
 	<groupId>jp.xcoo.casmi</groupId>
