@@ -38,6 +38,8 @@ import casmi.graphics.element.Rect;
 import casmi.graphics.element.Sphere;
 import casmi.graphics.element.Text;
 import casmi.graphics.font.Font;
+import casmi.graphics.object.Camera;
+import casmi.graphics.object.Perspective;
 import casmi.image.Texture;
 import casmi.matrix.Matrix3D;
 import casmi.matrix.Vector3D;
@@ -80,9 +82,12 @@ public class NuclearPlantsMap extends Applet {
 
 		earth = new Sphere(1);
 		earth.setStroke(false);
-        earthTexture = new Texture(getClass().getResource("/plantsmap/earthDiffuse.png"));
+        earthTexture = new Texture(getClass().getResource("/plantsmap/earth.png"));
         earth.setTexture(earthTexture);
         earth.setRotationZ(180.0);
+
+        map.setProjection(new Perspective(30, (double)getWidth()/(double)getHeight(), 1.0, 100));
+        map.setCamera(new Camera(2.4*zoom, 3.2*zoom, 4.0*zoom, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0));
 
         map.add(earth);
 
@@ -139,7 +144,6 @@ public class NuclearPlantsMap extends Applet {
 
         // board
         board = new Canvas();
-//        board.setUseProjection(false); // TODO
         board.setPosition(800, 80);
 
         boardBackground = new Rect(400, 130);
@@ -185,9 +189,6 @@ public class NuclearPlantsMap extends Applet {
         addCanvas(board);
 
         trackBall = new Trackball(getWidth(), getHeight());
-
-        setPerspective(30, (double)getWidth()/(double)getHeight(), 1.0, 100);
-        setCamera(2.4*zoom, 3.2*zoom, 4.0*zoom, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 	}
 
     @Override
