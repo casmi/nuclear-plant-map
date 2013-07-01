@@ -24,12 +24,15 @@ import jp.xcoo.casmi.plantsmap.data.Plant;
 import jp.xcoo.casmi.plantsmap.data.PowerPlantLoader;
 import casmi.Applet;
 import casmi.AppletRunner;
+import casmi.CursorMode;
 import casmi.KeyEvent;
 import casmi.MouseButton;
 import casmi.MouseStatus;
 import casmi.Trackball;
 import casmi.callback.MouseClickCallback;
 import casmi.callback.MouseClickEventType;
+import casmi.callback.MouseOverCallback;
+import casmi.callback.MouseOverEventType;
 import casmi.graphics.canvas.Canvas;
 import casmi.graphics.color.ColorSet;
 import casmi.graphics.color.RGBColor;
@@ -74,6 +77,8 @@ public class NuclearPlantsMap extends Applet {
     private Canvas map;
     private Canvas board;
 
+    private Tweener blink;
+
     @Override
 	public void setup(){
     	setSize(1024, 768);
@@ -92,6 +97,11 @@ public class NuclearPlantsMap extends Applet {
         map.add(earth);
 
         plants = PowerPlantLoader.load(getClass().getResource("/plantsmap/nuclear.csv"));
+
+        blink = new Tweener();
+        blink.animateAlpha(0.4, 500, QuadraticInOut.class);
+        blink.setRepeat(true);
+        addTweener(blink);
 
         for (Plant p : plants) {
             double lat = p.getLongitude();
@@ -120,11 +130,8 @@ public class NuclearPlantsMap extends Applet {
 
                         e.setSelected(true);
 
-                        clearTweeners();
-                        Tweener t = new Tweener(e);
-                        t.animateAlpha(0.4, 500, QuadraticInOut.class);
-                        t.setRepeat(true);
-                        addTweener(t);
+                        blink.setElement(e);
+                        blink.start();
 
                         labelName.setText("Name: " + e.getName());
                         labelCapacity.setText("CapacityLevel: " + e.getCapacity());
@@ -132,6 +139,21 @@ public class NuclearPlantsMap extends Applet {
                         labelLocation.setText("Location: " + e.getLongitude() + "," + e.getLatitude());
                         break;
                     default:
+                        break;
+                    }
+                }
+            });
+
+            p.addMouseEventCallback(new MouseOverCallback() {
+
+                public void run(MouseOverEventType eventType, Element element) {
+                    switch(eventType) {
+                    case ENTERED:
+                    case EXISTED:
+                        setCursor(CursorMode.HAND);
+                        break;
+                    case EXITED:
+                        setCursor(CursorMode.DEFAULT);
                         break;
                     }
                 }
