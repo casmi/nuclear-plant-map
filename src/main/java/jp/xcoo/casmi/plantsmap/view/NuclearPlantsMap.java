@@ -26,8 +26,10 @@ import casmi.Applet;
 import casmi.AppletRunner;
 import casmi.CursorMode;
 import casmi.KeyEvent;
+import casmi.Keyboard;
+import casmi.Mouse;
 import casmi.MouseButton;
-import casmi.MouseStatus;
+import casmi.MouseEvent;
 import casmi.Trackball;
 import casmi.callback.MouseClickCallback;
 import casmi.callback.MouseClickEventType;
@@ -119,6 +121,7 @@ public class NuclearPlantsMap extends Applet {
             p.setPosition(v);
 
             p.addMouseEventCallback(new MouseClickCallback() {
+                @Override
                 public void run(MouseClickEventType eventType, Element element) {
                     Plant e = (Plant) element;
 
@@ -146,6 +149,7 @@ public class NuclearPlantsMap extends Applet {
 
             p.addMouseEventCallback(new MouseOverCallback() {
 
+                @Override
                 public void run(MouseOverEventType eventType, Element element) {
                     switch(eventType) {
                     case ENTERED:
@@ -223,24 +227,24 @@ public class NuclearPlantsMap extends Applet {
     }
 
     @Override
-    public void mouseEvent(MouseStatus e, MouseButton b) {
-        if (e == MouseStatus.DRAGGED) {
-            trackBall.update(getMouseX(), getMouseY(), getPrevMouseX(), getPrevMouseY());
+    public void mouseEvent(MouseEvent event, MouseButton button, Mouse mouse) {
+        if (event == MouseEvent.DRAGGED) {
+            trackBall.update(mouse.getX(), mouse.getY(), mouse.getPrevX(), mouse.getPrevY());
         }
     }
 
     @Override
-    public void keyEvent(KeyEvent e) {
-        if (e == KeyEvent.PRESSED) {
-            if (getKeyCode() == 27) {
+    public void keyEvent(KeyEvent event, Keyboard keyboard) {
+        if (event == KeyEvent.PRESSED) {
+            if (keyboard.getKeyCode() == 27) {
                 System.exit(0);
             }
         }
 
-        if(getKeyCode() == 87){
+        if(keyboard.getKeyCode() == 87){
             zoom += 0.01;
         }
-        if(getKeyCode() == 83){
+        if(keyboard.getKeyCode() == 83){
             zoom -= 0.01;
         }
 

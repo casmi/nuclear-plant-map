@@ -47,7 +47,7 @@ public class Plant extends Cone{
     private Color color;
 
     public Plant(String name, double capacity, String country, double longitude, double latitude) {
-        super(0.015, capacity/15000.0);
+        super(0.015, capacity/15000.0, 5, 5);
 
         this.setName(name);
         this.setCountry(country);
